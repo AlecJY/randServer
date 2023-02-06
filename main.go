@@ -5,6 +5,7 @@ import (
 	"crypto/rand"
 	"log"
 	"net/http"
+	"runtime/debug"
 	"sync"
 )
 
@@ -22,6 +23,7 @@ func (r *RandServer) randHandler(w http.ResponseWriter, req *http.Request) {
 
 	// Generate 200 MB random bytes
 	buf := make([]byte, 200*1024*1024)
+	defer debug.FreeOSMemory()
 	rand.Read(buf)
 
 	// Just consume some CPU resource
